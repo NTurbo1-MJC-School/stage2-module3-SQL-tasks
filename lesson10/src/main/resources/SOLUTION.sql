@@ -1,0 +1,3 @@
+select id, name, description, grade from ((select subject.id, subject.name, subject.description, subject.grade, avg(mark.mark) as individual_avg from subject inner join mark on subject.id = mark.subject_id group by subject.id) cross join (select avg(mark.mark) as overall_avg from mark)) where individual_avg > overall_avg;
+
+select id, name, birthday, groupnumber from ((select student.id, student.name, student.birthday, student.groupnumber, sum(payment.amount) as ind_sum from student inner join payment on student.id = payment.student_id group by student.id) cross join (select avg(indiv_sum) as avg_ind_sum from (select sum(payment.amount) as indiv_sum from student inner join payment on student.id = payment.student_id group by student.id))) where ind_sum < avg_ind_sum;
